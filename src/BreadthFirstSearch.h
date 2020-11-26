@@ -9,10 +9,13 @@
 #include "Seek.h"
 #include "PathFollowing.h"
 #include "Grid.h"
+#include "PathSearchAlgorithm.h"
 
-class BreadthFirstSearch {
+class BreadthFirstSearch : public PathSearchAlgorithm{
 public:
-	
+	void setPath(Agent* a, Grid* g) {
+		type = PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH;
+	}
 private:
 
 

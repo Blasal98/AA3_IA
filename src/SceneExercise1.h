@@ -9,6 +9,12 @@
 #include "Seek.h"
 #include "PathFollowing.h"
 #include "Grid.h"
+#include "BreadthFirstSearch.h"
+#include "Dijkstra.h"
+#include "BestFirstSearch.h"
+#include "AAsterisk.h"
+#include "PathSearchAlgorithm.h"
+
 
 class SceneExercise1 :
 	public Scene
@@ -19,7 +25,7 @@ public:
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
-	enum algorithmType{BREADTH_FIRST_SEARCH, DIJKSTRA, BEST_FIRST_SEARCH, A_ASTERISK, COUNT};
+	
 	void nextAlgorithm();
 	void previousAlgorithm();
 
@@ -36,6 +42,8 @@ private:
 	SDL_Texture *coin_texture;
 	bool loadTextures(char* filename_bg, char* filename_coin);
 
-	algorithmType currentAlgorithm;
+	
+	PathSearchAlgorithm* currentAlgorithm;
+	
 
 };

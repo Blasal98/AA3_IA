@@ -9,3 +9,13 @@
 #include "Seek.h"
 #include "PathFollowing.h"
 #include "Grid.h"
+
+class BestFirstSearch : public PathSearchAlgorithm {
+public:
+	BestFirstSearch() {
+		type = PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH;
+	}
+	void setPath(Agent* a, Grid* g) {
+
+	}
+};

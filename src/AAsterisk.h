@@ -10,3 +10,12 @@
 #include "PathFollowing.h"
 #include "Grid.h"
 
+class AAsterisk : public PathSearchAlgorithm {
+public:
+	AAsterisk() {
+		type = PathSearchAlgorithm::algorithmType::A_ASTERISK;
+	}
+	void setPath(Agent* a, Grid* g) {
+
+	}
+};

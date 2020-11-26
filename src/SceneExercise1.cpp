@@ -28,7 +28,8 @@ SceneExercise1::SceneExercise1()
 	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
 		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
 
-	currentAlgorithm = algorithmType::BREADTH_FIRST_SEARCH;
+	
+	currentAlgorithm = new BreadthFirstSearch();
 	changeTitle = false;
 }
 
@@ -111,18 +112,18 @@ void SceneExercise1::draw()
 
 const char* SceneExercise1::getTitle()
 {
-	switch (currentAlgorithm)
+	switch (currentAlgorithm->type)
 	{
-	case algorithmType::BREADTH_FIRST_SEARCH:
+	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
 		return "Exercise1 :: BREADTH_FIRST_SEARCH";
 		break;
-	case algorithmType::DIJKSTRA:
+	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
 		return "Exercise1 :: DIJKSTRA";
 		break;
-	case algorithmType::BEST_FIRST_SEARCH:
+	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
 		return "Exercise1 :: BEST_FIRST_SEARCH";
 		break;
-	case algorithmType::A_ASTERISK:
+	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
 		return "Exercise1 :: A_ASTERISK";
 		break;
 	default:
@@ -192,12 +193,41 @@ bool SceneExercise1::loadTextures(char* filename_bg, char* filename_coin)
 	return true;
 }
 
+PathSearchAlgorithm* getNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
+	switch (_t) {
+	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
+		return new BreadthFirstSearch();
+		break;
+	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
+		return new Dijkstra();
+		break;
+	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
+		return new BestFirstSearch();
+		break;
+	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
+		return new AAsterisk();
+		break;
+	default:
+		return NULL;
+		break;
+	}
+}
+
 void SceneExercise1::nextAlgorithm() {
-	currentAlgorithm = (algorithmType)((int)currentAlgorithm + 1);
-	if (currentAlgorithm == algorithmType::COUNT) currentAlgorithm = (algorithmType)0;
+	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
+	auxType = (PathSearchAlgorithm::algorithmType)((int)auxType + 1);
+	if (auxType == PathSearchAlgorithm::algorithmType::COUNT) auxType = (PathSearchAlgorithm::algorithmType)0;
+	delete(currentAlgorithm);
+	currentAlgorithm = getNewAlgorithm(auxType);
+	
 }
 
 void SceneExercise1::previousAlgorithm() {
-	if (currentAlgorithm == algorithmType::BREADTH_FIRST_SEARCH) currentAlgorithm = (algorithmType)3;
-	else currentAlgorithm = (algorithmType)((int)currentAlgorithm - 1);
+	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
+	if (auxType == PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH) auxType = (PathSearchAlgorithm::algorithmType)3;
+	else auxType = (PathSearchAlgorithm::algorithmType)((int)auxType - 1);
+	delete(currentAlgorithm);
+	currentAlgorithm = getNewAlgorithm(auxType);
 }
+
+
