@@ -1,0 +1,30 @@
+﻿  Agent.cpp
+c:\users\portatil\onedrive\documentos_main\aaavictor\1----enti----1\3. tercer\1er semestre\ia\practicas\aa3\aa3_ia\src\agent.cpp(126): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Grid.cpp
+  main.cpp
+  PathFollowing.cpp
+  ScenePathFindingMouse.cpp
+  SDL_SimpleApp.cpp
+  Seek.cpp
+  utils.cpp
+  Generando código...
+  SDL_Pathfinding.vcxproj -> C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\bin\x64Debug\SDL_Pathfinding.exe
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libFLAC-8.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libfreetype-6.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libjpeg-9.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libmikmod-2.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libmodplug-1.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libogg-0.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libpng16-16.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libtiff-5.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libvorbis-0.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libvorbisfile-3.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\libwebp-4.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\SDL2.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\SDL2_image.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\SDL2_mixer.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\SDL2_net.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\SDL2_ttf.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\smpeg2.dll
+  C:\Users\PORTATIL\OneDrive\Documentos_main\AAAVICTOR\1----ENTI----1\3. TERCER\1er SEMESTRE\IA\practicas\AA3\AA3_IA\\dep\dll\x64\zlib1.dll
+  18 archivo(s) copiado(s)
