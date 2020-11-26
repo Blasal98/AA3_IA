@@ -28,6 +28,8 @@ SceneExercise1::SceneExercise1()
 	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
 		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
 
+	currentAlgorithm = algorithmType::BREADTH_FIRST_SEARCH;
+	changeTitle = false;
 }
 
 SceneExercise1::~SceneExercise1()
@@ -52,18 +54,27 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 			draw_grid = !draw_grid;
 		break;
 	case SDL_MOUSEMOTION:
+		break;
 	case SDL_MOUSEBUTTONDOWN:
-		/*if (event->button.button == SDL_BUTTON_LEFT)
-		{
-			Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
-			if (maze->isValidCell(cell)) {
-				agents[0]->addPathPoint(maze->cell2pix(cell));
-			}
-		}*/
+		if (event->button.button == SDL_BUTTON_LEFT) {
+			nextAlgorithm();
+			changeTitle = true;
+		}
+			
+		else if (event->button.button == SDL_BUTTON_RIGHT) {
+			previousAlgorithm();
+			changeTitle = true;
+		}
+			
 		break;
 	default:
 		break;
 	}
+
+	/*Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
+	if (maze->isValidCell(cell)) {
+		agents[0]->addPathPoint(maze->cell2pix(cell));
+	}*/
 
 	agents[0]->update(dtime, event);
 
@@ -100,7 +111,25 @@ void SceneExercise1::draw()
 
 const char* SceneExercise1::getTitle()
 {
-	return "SDL Path Finding :: PathFinding Mouse Demo";
+	switch (currentAlgorithm)
+	{
+	case algorithmType::BREADTH_FIRST_SEARCH:
+		return "Exercise1 :: BREADTH_FIRST_SEARCH";
+		break;
+	case algorithmType::DIJKSTRA:
+		return "Exercise1 :: DIJKSTRA";
+		break;
+	case algorithmType::BEST_FIRST_SEARCH:
+		return "Exercise1 :: BEST_FIRST_SEARCH";
+		break;
+	case algorithmType::A_ASTERISK:
+		return "Exercise1 :: A_ASTERISK";
+		break;
+	default:
+		return "Exercise1 :: NO ALGORITHM SELECTED";
+		break;
+	}
+	return  "";
 }
 
 void SceneExercise1::drawMaze()
@@ -161,4 +190,14 @@ bool SceneExercise1::loadTextures(char* filename_bg, char* filename_coin)
 		SDL_FreeSurface(image);
 
 	return true;
+}
+
+void SceneExercise1::nextAlgorithm() {
+	currentAlgorithm = (algorithmType)((int)currentAlgorithm + 1);
+	if (currentAlgorithm == algorithmType::COUNT) currentAlgorithm = (algorithmType)0;
+}
+
+void SceneExercise1::previousAlgorithm() {
+	if (currentAlgorithm == algorithmType::BREADTH_FIRST_SEARCH) currentAlgorithm = (algorithmType)3;
+	else currentAlgorithm = (algorithmType)((int)currentAlgorithm - 1);
 }

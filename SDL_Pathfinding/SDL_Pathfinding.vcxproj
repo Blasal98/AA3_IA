@@ -140,16 +140,22 @@
     <ClCompile Include="..\src\Grid.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\PathFollowing.cpp" />
+    <ClCompile Include="..\src\SceneExercise1.cpp" />
     <ClCompile Include="..\src\ScenePathFindingMouse.cpp" />
     <ClCompile Include="..\src\SDL_SimpleApp.cpp" />
     <ClCompile Include="..\src\Seek.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\AAsterisk.h" />
     <ClInclude Include="..\src\Agent.h" />
+    <ClInclude Include="..\src\BestFirstSearch.h" />
+    <ClInclude Include="..\src\BreadthFirstSearch.h" />
+    <ClInclude Include="..\src\Dijkstra.h" />
     <ClInclude Include="..\src\Grid.h" />
     <ClInclude Include="..\src\Path.h" />
     <ClInclude Include="..\src\PathFollowing.h" />
+    <ClInclude Include="..\src\SceneExercise1.h" />
     <ClInclude Include="..\src\ScenePathFindingMouse.h" />
     <ClInclude Include="..\src\Seek.h" />
     <ClInclude Include="..\src\utils.h" />

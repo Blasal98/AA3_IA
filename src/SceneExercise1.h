@@ -19,6 +19,10 @@ public:
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
+	enum algorithmType{BREADTH_FIRST_SEARCH, DIJKSTRA, BEST_FIRST_SEARCH, A_ASTERISK, COUNT};
+	void nextAlgorithm();
+	void previousAlgorithm();
+
 private:
 	std::vector<Agent*> agents;
 	Vector2D coinPosition;
@@ -31,5 +35,7 @@ private:
 	SDL_Texture *background_texture;
 	SDL_Texture *coin_texture;
 	bool loadTextures(char* filename_bg, char* filename_coin);
+
+	algorithmType currentAlgorithm;
 
 };
