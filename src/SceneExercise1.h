@@ -28,6 +28,7 @@ public:
 	
 	void nextAlgorithm();
 	void previousAlgorithm();
+	void Instances20();
 
 private:
 	std::vector<Agent*> agents;
@@ -45,5 +46,9 @@ private:
 	
 	PathSearchAlgorithm* currentAlgorithm;
 	bool pathSetted;
+
+	void setRandPositions();
+	int instance;
+	std::vector<std::pair<Vector2D,Vector2D>> instances;
 
 };

@@ -18,22 +18,23 @@ SceneExercise1::SceneExercise1()
 	agents.push_back(agent);
 
 	// set agent position coords to the center of a random cell
-	Vector2D rand_cell(-1,-1);
-	while (!maze->isValidCell(rand_cell))
-		rand_cell = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
-	agents[0]->setPosition(maze->cell2pix(rand_cell));
+
 	//agents[0]->setPosition(maze->cell2pix(Vector2D(1,1)));
 
 	// set the coin in a random cell (but at least 3 cells far from the agent)
-	coinPosition = Vector2D(-1,-1);
-	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell)<3))
-		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+	
 	//coinPosition = Vector2D(38,22);
-
+	//setRandPositions();
 	
 	currentAlgorithm = new BreadthFirstSearch();
 	changeTitle = false;
 	pathSetted = false;
+	instance = 0;
+	for (int i = 0; i < 20; i++) {
+		setRandPositions();
+		instances.push_back(std::make_pair(agents[0]->getPosition(),coinPosition));
+	}
+	Instances20();
 }
 
 SceneExercise1::~SceneExercise1()
@@ -48,6 +49,17 @@ SceneExercise1::~SceneExercise1()
 		delete agents[i];
 	}
 }
+void SceneExercise1::setRandPositions() {
+	Vector2D rand_cell(-1, -1);
+	while (!maze->isValidCell(rand_cell))
+		rand_cell = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+	agents[0]->setPosition(maze->cell2pix(rand_cell));
+
+	coinPosition = Vector2D(-1, -1);
+	while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, rand_cell) < 3))
+		coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+}
+
 
 void SceneExercise1::update(float dtime, SDL_Event *event)
 {
@@ -62,14 +74,11 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT) {
 			nextAlgorithm();
-			changeTitle = true;
-			pathSetted = false;
 		}
 			
 		else if (event->button.button == SDL_BUTTON_RIGHT) {
 			previousAlgorithm();
-			changeTitle = true;
-			pathSetted = false;
+
 		}
 			
 		break;
@@ -95,11 +104,12 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	// if we have arrived to the coin, replace it in a random cell!
 	if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
 	{
-		coinPosition = Vector2D(-1, -1);
+		/*coinPosition = Vector2D(-1, -1);
 		while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
 			coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
-
-		pathSetted = false;
+        */
+		instance++;
+		Instances20();
 	}
 	
 }
@@ -234,7 +244,10 @@ void SceneExercise1::nextAlgorithm() {
 	if (auxType == PathSearchAlgorithm::algorithmType::COUNT) auxType = (PathSearchAlgorithm::algorithmType)0;
 	delete(currentAlgorithm);
 	currentAlgorithm = getNewAlgorithm(auxType);
-	
+	agents[0]->clearPath();
+	instance = 0;
+	Instances20();
+	changeTitle = true;
 }
 
 void SceneExercise1::previousAlgorithm() {
@@ -243,6 +256,36 @@ void SceneExercise1::previousAlgorithm() {
 	else auxType = (PathSearchAlgorithm::algorithmType)((int)auxType - 1);
 	delete(currentAlgorithm);
 	currentAlgorithm = getNewAlgorithm(auxType);
+	agents[0]->clearPath();
+	instance = 0;
+	Instances20();
+	changeTitle = true;
+}
+
+void SceneExercise1::Instances20() {
+	pathSetted = false;
+	switch (instance) {
+	case 0:
+		agents[0]->setPosition(instances[0].first);
+		coinPosition = instances[0].second;
+		break;
+	case 1:
+		agents[0]->setPosition(instances[0].first);
+		coinPosition = instances[0].second;
+		break;
+	case 2:
+		agents[0]->setPosition(instances[0].first);
+		coinPosition = instances[0].second;
+		break;
+	case 3:
+		agents[0]->setPosition(instances[0].first);
+		coinPosition = instances[0].second;
+		break;
+	case 4:
+		agents[0]->setPosition(instances[0].first);
+		coinPosition = instances[0].second;
+		break;
+	}
 }
 
 
