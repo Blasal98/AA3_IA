@@ -35,6 +35,8 @@ SceneExercise1::SceneExercise1()
 		instances.push_back(std::make_pair(agents[0]->getPosition(),coinPosition));
 	}
 	Instances20();
+
+	pause = false;
 }
 
 SceneExercise1::~SceneExercise1()
@@ -68,6 +70,9 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_grid = !draw_grid;
+		if (event->key.keysym.scancode == SDL_SCANCODE_P)
+			pause = !pause;
+
 		break;
 	case SDL_MOUSEMOTION:
 		break;
@@ -75,43 +80,41 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 		if (event->button.button == SDL_BUTTON_LEFT) {
 			nextAlgorithm();
 		}
-			
 		else if (event->button.button == SDL_BUTTON_RIGHT) {
 			previousAlgorithm();
-
 		}
-			
 		break;
 	default:
 		break;
 	}
+	if(!pause){
+		/*Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
+		if (maze->isValidCell(cell)) {
+			agents[0]->addPathPoint(maze->cell2pix(cell));
+		}*/
+		/*Vector2D cell = Vector2D(1, 2);
+		if (maze->isValidCell(cell)) {
+			agents[0]->addPathPoint(maze->cell2pix(cell));
+		}*/
 
-	/*Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
-	if (maze->isValidCell(cell)) {
-		agents[0]->addPathPoint(maze->cell2pix(cell));
-	}*/
-	/*Vector2D cell = Vector2D(1, 2);
-	if (maze->isValidCell(cell)) {
-		agents[0]->addPathPoint(maze->cell2pix(cell));
-	}*/
+		if(!pathSetted){
 
-	if(!pathSetted){
+			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition);
+		}
+		agents[0]->update(dtime, event);
 
-		pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition);
+		// if we have arrived to the coin, replace it in a random cell!
+		if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
+		{
+			/*coinPosition = Vector2D(-1, -1);
+			while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
+				coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
+			*/
+			instance++;
+			if (instance > 19) instance = 0;
+			Instances20();
+		}
 	}
-	agents[0]->update(dtime, event);
-
-	// if we have arrived to the coin, replace it in a random cell!
-	if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
-	{
-		/*coinPosition = Vector2D(-1, -1);
-		while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
-			coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
-        */
-		instance++;
-		Instances20();
-	}
-	
 }
 
 void SceneExercise1::draw()
@@ -237,55 +240,35 @@ PathSearchAlgorithm* getNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
 		break;
 	}
 }
+void SceneExercise1::createNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
+	delete(currentAlgorithm);
+	currentAlgorithm = getNewAlgorithm(_t);
+	agents[0]->clearPath();
+	instance = 0;
+	Instances20();
+	changeTitle = true;
+}
 
 void SceneExercise1::nextAlgorithm() {
 	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
 	auxType = (PathSearchAlgorithm::algorithmType)((int)auxType + 1);
 	if (auxType == PathSearchAlgorithm::algorithmType::COUNT) auxType = (PathSearchAlgorithm::algorithmType)0;
-	delete(currentAlgorithm);
-	currentAlgorithm = getNewAlgorithm(auxType);
-	agents[0]->clearPath();
-	instance = 0;
-	Instances20();
-	changeTitle = true;
+	createNewAlgorithm(auxType);
 }
 
 void SceneExercise1::previousAlgorithm() {
 	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
 	if (auxType == PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH) auxType = (PathSearchAlgorithm::algorithmType)3;
 	else auxType = (PathSearchAlgorithm::algorithmType)((int)auxType - 1);
-	delete(currentAlgorithm);
-	currentAlgorithm = getNewAlgorithm(auxType);
-	agents[0]->clearPath();
-	instance = 0;
-	Instances20();
-	changeTitle = true;
+	createNewAlgorithm(auxType);
 }
 
 void SceneExercise1::Instances20() {
 	pathSetted = false;
-	switch (instance) {
-	case 0:
-		agents[0]->setPosition(instances[0].first);
-		coinPosition = instances[0].second;
-		break;
-	case 1:
-		agents[0]->setPosition(instances[0].first);
-		coinPosition = instances[0].second;
-		break;
-	case 2:
-		agents[0]->setPosition(instances[0].first);
-		coinPosition = instances[0].second;
-		break;
-	case 3:
-		agents[0]->setPosition(instances[0].first);
-		coinPosition = instances[0].second;
-		break;
-	case 4:
-		agents[0]->setPosition(instances[0].first);
-		coinPosition = instances[0].second;
-		break;
-	}
+
+	agents[0]->setPosition(instances[instance].first);
+	coinPosition = instances[instance].second;
+	std::cout << std::endl << "----" << currentAlgorithm->type << "_Instance_" << instance << "----" << std::endl;
 }
 
 

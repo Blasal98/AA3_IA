@@ -28,9 +28,12 @@ public:
 	
 	void nextAlgorithm();
 	void previousAlgorithm();
+	void createNewAlgorithm(PathSearchAlgorithm::algorithmType _t);
 	void Instances20();
 
+
 private:
+	bool pause;
 	std::vector<Agent*> agents;
 	Vector2D coinPosition;
 

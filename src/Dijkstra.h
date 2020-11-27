@@ -37,10 +37,10 @@ public:
 		std::vector<std::pair<Vector2D, int>> cost_so_far;
 		cost_so_far.push_back(std::make_pair(frontier.top().cell, 0));
 
-		std::cout << "Compte de Nodes que es van Afegint a la Frontera a cada Iteracio: " << std::endl;
+		std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
+		int auxCount = 0;
 		while (!frontier.empty()) { //Mentre frontera no estigui buida
 
-			int auxCompteNodes = 0;
 			Weighted current = frontier.top(); //agafem primer element de frontier i li diem current
 			frontier.pop(); //fem pop(pop_top) de la frontier
 			//std::cout << current.x << " " << current.y << std::endl;
@@ -77,25 +77,27 @@ public:
 					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
 					came_from.push_back(std::make_pair(neighbours[i], current.cell));
 					cost_so_far.push_back(std::make_pair(neighbours[i], newCost));
-					auxCompteNodes++;
+					
 				}
 				else if (newLowerCost) {
 					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
 					came_from.push_back(std::make_pair(neighbours[i], current.cell));
 					cost_so_far.push_back(std::make_pair(neighbours[i], newCost));
-					auxCompteNodes++;
+					
 				}
 			}
-			std::cout << auxCompteNodes << ",";
+			std::cout << frontier.size() << ",";
+			auxCount++;
 
 		}
-		std::cout << "Nodes restants a la frontera: " << frontier.size() << std::endl;
+		int auxPathLength = 0;
 		std::vector<Vector2D> _path;
 		_path.push_back(targetCell);
 		while (_path[_path.size() - 1] != Vector2D(-1, -1)) {
 			for (int i = 0; i < came_from.size(); i++) {
 				if (came_from[i].first == _path[_path.size() - 1]) {
 					_path.push_back(came_from[i].second);
+					auxPathLength++;
 					break;
 				}
 			}
@@ -103,6 +105,7 @@ public:
 		for (int i = _path.size() - 2; i >= 0; i--) {
 			a->addPathPoint(g->cell2pix(_path[i]));
 		}
+		std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
 		return true;
 	}
 };
