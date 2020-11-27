@@ -15,7 +15,7 @@ public:
 	Dijkstra(){
 		type = PathSearchAlgorithm::algorithmType::DIJKSTRA;
 	}
-	void setPath(Agent* a, Grid* g) {
-
+	bool setPath(Agent* a, Grid* g, Vector2D targetCell) {
+		return true;
 	}
 };

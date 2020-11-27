@@ -4,7 +4,7 @@ using namespace std;
 
 SceneExercise1::SceneExercise1()
 {
-	draw_grid = true;
+	draw_grid = false;
 	maze = new Grid("../res/maze.csv");
 
 	loadTextures("../res/maze.png", "../res/coin.png");
@@ -31,6 +31,7 @@ SceneExercise1::SceneExercise1()
 	
 	currentAlgorithm = new BreadthFirstSearch();
 	changeTitle = false;
+	pathSetted = false;
 }
 
 SceneExercise1::~SceneExercise1()
@@ -60,11 +61,13 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 		if (event->button.button == SDL_BUTTON_LEFT) {
 			nextAlgorithm();
 			changeTitle = true;
+			pathSetted = false;
 		}
 			
 		else if (event->button.button == SDL_BUTTON_RIGHT) {
 			previousAlgorithm();
 			changeTitle = true;
+			pathSetted = false;
 		}
 			
 		break;
@@ -76,7 +79,15 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	if (maze->isValidCell(cell)) {
 		agents[0]->addPathPoint(maze->cell2pix(cell));
 	}*/
+	/*Vector2D cell = Vector2D(1, 2);
+	if (maze->isValidCell(cell)) {
+		agents[0]->addPathPoint(maze->cell2pix(cell));
+	}*/
 
+	if(!pathSetted){
+
+		pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition);
+	}
 	agents[0]->update(dtime, event);
 
 	// if we have arrived to the coin, replace it in a random cell!

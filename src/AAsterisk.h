@@ -15,7 +15,7 @@ public:
 	AAsterisk() {
 		type = PathSearchAlgorithm::algorithmType::A_ASTERISK;
 	}
-	void setPath(Agent* a, Grid* g) {
-
+	bool setPath(Agent* a, Grid* g, Vector2D targetCell) {
+		return true;
 	}
 };

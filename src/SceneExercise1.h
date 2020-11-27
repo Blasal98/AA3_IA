@@ -44,6 +44,6 @@ private:
 
 	
 	PathSearchAlgorithm* currentAlgorithm;
-	
+	bool pathSetted;
 
 };

@@ -15,7 +15,7 @@ public:
 	BestFirstSearch() {
 		type = PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH;
 	}
-	void setPath(Agent* a, Grid* g) {
-
+	bool setPath(Agent* a, Grid* g, Vector2D targetCell) {
+		return true;
 	}
 };
