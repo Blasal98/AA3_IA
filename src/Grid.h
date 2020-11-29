@@ -24,5 +24,5 @@ public:
 	bool isValidCell(Vector2D cell);
 	int getNumCellX();
 	int getNumCellY();
-	std::vector<Vector2D> getNeighbours(Vector2D cell);
+	std::vector<std::pair<Vector2D,bool>> getNeighbours(Vector2D cell);
 };
