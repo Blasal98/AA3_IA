@@ -37,7 +37,7 @@ public:
 		std::vector<std::pair<Vector2D, int>> cost_so_far;
 		cost_so_far.push_back(std::make_pair(frontier.top().cell, 0));
 
-		std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
+		//std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
 		int auxCount = 0;
 		while (!frontier.empty()) { //Mentre frontera no estigui buida
 
@@ -46,7 +46,7 @@ public:
 			//std::cout << current.x << " " << current.y << std::endl;
 			if (current.cell == targetCell) break; //si l'hem trobat s'acaba
 
-			std::vector<std::pair<Vector2D, bool>> neighbours = g->getNeighbours(current.cell); //agafem veins de Current
+			std::vector<Vector2D> neighbours = g->getNeighbours(current.cell); //agafem veins de Current
 			for (int i = 0; i < neighbours.size(); i++) { //per cada vei de Current
 
 				bool inCameFrom = false;
@@ -56,7 +56,7 @@ public:
 
 				for (int j = 0; j < came_from.size(); j++) { //per cada element de came_from 
 
-					if (came_from[j].first == neighbours[i].first) {  //si el vei esta a came_from.first el marca com que ya esta
+					if (came_from[j].first == neighbours[i]) {  //si el vei esta a came_from.first el marca com que ya esta
 						inCameFrom = true;
 						break;
 					}
@@ -64,30 +64,28 @@ public:
 				int changeIndex = -1;
 				if(inCameFrom){ //si esta a camefrom
 					for (int j = 0; j < cost_so_far.size(); j++) { //recorrem cost so far per trobar el seu cost
-						if (cost_so_far[j].first == neighbours[i].first) {
+						if (cost_so_far[j].first == neighbours[i]) {
 							auxCost = cost_so_far[j].second;
 							changeIndex = j;
 							break;
 						}
 					}
 				}
-				float newCost = -1;
-				if (neighbours[i].second) newCost = current.pathLenght + std::sqrtf(2);
-				else newCost = current.pathLenght + 1;
+				float newCost = current.pathLenght + 1;
 
 				if(auxCost > 0 && newCost < auxCost) 
 					newLowerCost = true; //suposant que totes les arestes sumin 1
 
 				if (!inCameFrom) {
-					frontier.push(Weighted{ neighbours[i].first, newCost }); //sino estava doncs el pusheja a frontier ia came_from
-					came_from.push_back(std::make_pair(neighbours[i].first, current.cell));
-					cost_so_far.push_back(std::make_pair(neighbours[i].first, newCost));
+					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
+					came_from.push_back(std::make_pair(neighbours[i], current.cell));
+					cost_so_far.push_back(std::make_pair(neighbours[i], newCost));
 					
 				}
 				else if (newLowerCost) {
-					frontier.push(Weighted{ neighbours[i].first, newCost }); //sino estava doncs el pusheja a frontier ia came_from
-					came_from[changeIndex] = std::make_pair(neighbours[i].first, current.cell);
-					cost_so_far[changeIndex] = std::make_pair(neighbours[i].first, newCost);
+					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
+					came_from[changeIndex] = std::make_pair(neighbours[i], current.cell);
+					cost_so_far[changeIndex] = std::make_pair(neighbours[i], newCost);
 					
 				}
 			}
@@ -95,18 +93,14 @@ public:
 			auxCount++;
 
 		}
-		float auxPathLength = 0;
+		int auxPathLength = 0;
 		std::vector<Vector2D> _path;
 		_path.push_back(targetCell);
 		while (_path[_path.size() - 1] != Vector2D(-1, -1)) {
 			for (int i = 0; i < came_from.size(); i++) {
 				if (came_from[i].first == _path[_path.size() - 1]) {
 					_path.push_back(came_from[i].second);
-					if (came_from[i].first.x == came_from[i].second.x + 1 && came_from[i].first.y == came_from[i].second.y + 1) { auxPathLength += std::sqrtf(2); }
-					else if (came_from[i].first.x == came_from[i].second.x + 1 && came_from[i].first.y == came_from[i].second.y - 1) { auxPathLength += std::sqrtf(2); }
-					else if (came_from[i].first.x == came_from[i].second.x - 1 && came_from[i].first.y == came_from[i].second.y + 1) { auxPathLength += std::sqrtf(2); }
-					else if (came_from[i].first.x == came_from[i].second.x - 1 && came_from[i].first.y == came_from[i].second.y - 1) { auxPathLength += std::sqrtf(2); }
-					else { auxPathLength++; }
+					auxPathLength++; 
 					
 					break;
 				}
