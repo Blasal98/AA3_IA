@@ -61,7 +61,10 @@ int main(int argc, char ** argv)
 			quit = true;
 			break;
 		}
-
+		if (curr_scene->changeTitle) {
+			app->setWindowTitle(curr_scene->getTitle());
+			curr_scene->changeTitle = false;
+		}
 	}
 
 	return 0;
