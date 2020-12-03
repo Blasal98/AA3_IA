@@ -98,7 +98,6 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 		if(!pathSetted){ //sino creat el crea (el cami)
 			agents[0]->clearPath();
 			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition, showAll);
-
 		}
 		if(!showAll) agents[0]->update(dtime, event);
 

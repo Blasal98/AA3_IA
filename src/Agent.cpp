@@ -75,7 +75,9 @@ void Agent::setVelocity(Vector2D _velocity)
 {
 	velocity = _velocity;
 }
-
+void Agent::switchShowSprite() {
+	draw_sprite = !draw_sprite;
+}
 void Agent::update(float dtime, SDL_Event *event)
 {
 
@@ -83,10 +85,10 @@ void Agent::update(float dtime, SDL_Event *event)
 
 	switch (event->type) {
 		/* Keyboard & Mouse events */
-	case SDL_KEYDOWN:
+	/*case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_sprite = !draw_sprite;
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -168,7 +170,7 @@ void Agent::draw()
 	}
 	else 
 	{
-		draw_circle(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, 15, 255, 255, 255, 255);
+		draw_circle(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, 15, 255, 0, 0, 255);
 		SDL_RenderDrawLine(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, (int)(position.x+15*cos(orientation*DEG2RAD)), (int)(position.y+15*sin(orientation*DEG2RAD)));
 	}
 

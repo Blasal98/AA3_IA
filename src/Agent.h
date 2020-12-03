@@ -59,6 +59,7 @@ public:
 	int getPathSize();
 	Vector2D getPathPoint(int idx);
 	void clearPath();
+	void switchShowSprite();
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);

@@ -17,6 +17,16 @@ SceneExercise2::SceneExercise2()
 	agent->setTarget(Vector2D(-20,-20));
 	agents.push_back(agent);
 
+	for (int i = 0; i < 3; i++) {
+		agent = new Agent;
+		agent->loadSpriteTexture("../res/zombie1.png", 8);
+		agent->setBehavior(new PathFollowing);
+		agent->setTarget(Vector2D(-20, -20));
+		agents.push_back(agent);
+	}
+	
+	for (int i = 1; i < 4; i++) {}
+
 	// set agent position coords to the center of a random cell
 
 	//agents[0]->setPosition(maze->cell2pix(Vector2D(1,1)));
@@ -26,6 +36,8 @@ SceneExercise2::SceneExercise2()
 	//coinPosition = Vector2D(38,22);
 	//setRandPositions();
 	
+
+
 	currentAlgorithm = new GreedyStrategy();
 	changeTitle = false;
 	pathSetted = false;
@@ -69,15 +81,20 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 	/* Keyboard & Mouse events */
 	switch (event->type) {
 	case SDL_KEYDOWN:
-		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
-			draw_grid = !draw_grid;
+		
 		if (event->key.keysym.scancode == SDL_SCANCODE_P)
 			pause = !pause;
-		if (event->key.keysym.scancode == SDL_SCANCODE_O) {
-			showAll = !showAll;
-			Instances20();
+
+		if(!pause){
+			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
+				showAll = !showAll;
+				Instances20();
+			}
+			if (event->key.keysym.scancode == SDL_SCANCODE_SPACE) {
+				draw_grid = !draw_grid;
+				agents[0]->switchShowSprite();
+			}
 		}
-			
 
 		break;
 	case SDL_MOUSEMOTION:
@@ -134,7 +151,7 @@ void SceneExercise2::draw()
 
 const char* SceneExercise2::getTitle()
 {
-	return "Exercise2 :: A*_Variant";
+	return "Exercise2 :: Greedy_BFS_Variant";
 }
 
 void SceneExercise2::drawMaze()
