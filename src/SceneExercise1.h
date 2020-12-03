@@ -34,6 +34,7 @@ public:
 
 private:
 	bool pause;
+	bool showAll;
 	std::vector<Agent*> agents;
 	Vector2D coinPosition;
 

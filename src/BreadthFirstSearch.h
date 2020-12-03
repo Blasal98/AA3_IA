@@ -17,7 +17,7 @@ public:
 	BreadthFirstSearch() {
 		type = PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH;
 	}
-	bool setPath(Agent* a, Grid* g, Vector2D targetCell) {
+	bool setPath(Agent* a, Grid* g, Vector2D targetCell, bool _showAll) {
 		std::queue<Vector2D> frontier;  //Create Frontier
 		frontier.push(g->pix2cell(a->getPosition()));	//Push Start Cell to Frontier
 		
@@ -44,27 +44,31 @@ public:
 				if (!inCameFrom) {
 					frontier.push(neighbours[i]); //sino estava doncs el pusheja a frontier ia came_from
 					came_from.push_back(std::make_pair(neighbours[i],current));
+					if(_showAll) a->addPathPoint(g->cell2pix(neighbours[i]));
 				}
 			}
 			//std::cout << frontier.size() << ",";
 			auxCount++;
 		}
-		int auxPathLength = 0;
-		std::vector<Vector2D> _path;
-		_path.push_back(targetCell);
-		while (_path[_path.size()-1] != Vector2D(-1, -1)) {
-			for (int i = 0; i < came_from.size(); i++) {
-				if (came_from[i].first == _path[_path.size() - 1]) {
-					_path.push_back(came_from[i].second);
-					auxPathLength++; 
-					break;
+		if (!_showAll) {
+			int auxPathLength = 0;
+			std::vector<Vector2D> _path;
+			_path.push_back(targetCell);
+			while (_path[_path.size() - 1] != Vector2D(-1, -1)) {
+				for (int i = 0; i < came_from.size(); i++) {
+					if (came_from[i].first == _path[_path.size() - 1]) {
+						_path.push_back(came_from[i].second);
+						auxPathLength++;
+						break;
+					}
 				}
 			}
+			for (int i = _path.size() - 2; i >= 0; i--) {
+				a->addPathPoint(g->cell2pix(_path[i]));
+			}
+			std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
 		}
-		for (int i = _path.size()-2; i >= 0; i--) {
-			a->addPathPoint(g->cell2pix(_path[i]));
-		}
-		std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
+		
 		return true;
 	}
 private:

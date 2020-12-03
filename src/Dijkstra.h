@@ -27,7 +27,7 @@ public:
 	Dijkstra(){
 		type = PathSearchAlgorithm::algorithmType::DIJKSTRA;
 	}
-	bool setPath(Agent* a, Grid* g, Vector2D targetCell) {
+	bool setPath(Agent* a, Grid* g, Vector2D targetCell, bool _showAll) {
 		std::priority_queue<Weighted, std::vector<Weighted>, Weighted> frontier;  //Create Frontier
 		frontier.push(Weighted{ g->pix2cell(a->getPosition()) ,0});	//Push Start Cell to Frontier
 
@@ -80,12 +80,14 @@ public:
 					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
 					came_from.push_back(std::make_pair(neighbours[i], current.cell));
 					cost_so_far.push_back(std::make_pair(neighbours[i], newCost));
+					if (_showAll)a->addPathPoint(g->cell2pix(neighbours[i]));
 					
 				}
 				else if (newLowerCost) {
 					frontier.push(Weighted{ neighbours[i], newCost }); //sino estava doncs el pusheja a frontier ia came_from
 					came_from[changeIndex] = std::make_pair(neighbours[i], current.cell);
 					cost_so_far[changeIndex] = std::make_pair(neighbours[i], newCost);
+					if (_showAll)a->addPathPoint(g->cell2pix(neighbours[i]));
 					
 				}
 			}
@@ -93,23 +95,26 @@ public:
 			auxCount++;
 
 		}
-		int auxPathLength = 0;
-		std::vector<Vector2D> _path;
-		_path.push_back(targetCell);
-		while (_path[_path.size() - 1] != Vector2D(-1, -1)) {
-			for (int i = 0; i < came_from.size(); i++) {
-				if (came_from[i].first == _path[_path.size() - 1]) {
-					_path.push_back(came_from[i].second);
-					auxPathLength++; 
-					
-					break;
+		if (!_showAll) {
+			int auxPathLength = 0;
+			std::vector<Vector2D> _path;
+			_path.push_back(targetCell);
+			while (_path[_path.size() - 1] != Vector2D(-1, -1)) {
+				for (int i = 0; i < came_from.size(); i++) {
+					if (came_from[i].first == _path[_path.size() - 1]) {
+						_path.push_back(came_from[i].second);
+						auxPathLength++;
+
+						break;
+					}
 				}
 			}
+			for (int i = _path.size() - 2; i >= 0; i--) {
+				a->addPathPoint(g->cell2pix(_path[i]));
+			}
+			std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
 		}
-		for (int i = _path.size() - 2; i >= 0; i--) {
-			a->addPathPoint(g->cell2pix(_path[i]));
-		}
-		std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
+		
 		return true;
 	}
 };

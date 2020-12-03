@@ -37,6 +37,7 @@ SceneExercise1::SceneExercise1()
 	Instances20();
 
 	pause = false;
+	showAll = false;
 }
 
 SceneExercise1::~SceneExercise1()
@@ -72,6 +73,11 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 			draw_grid = !draw_grid;
 		if (event->key.keysym.scancode == SDL_SCANCODE_P)
 			pause = !pause;
+		if (event->key.keysym.scancode == SDL_SCANCODE_O) {
+			showAll = !showAll;
+			pathSetted = false;
+		}
+			
 
 		break;
 	case SDL_MOUSEMOTION:
@@ -88,20 +94,13 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 		break;
 	}
 	if(!pause){
-		/*Vector2D cell = maze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
-		if (maze->isValidCell(cell)) {
-			agents[0]->addPathPoint(maze->cell2pix(cell));
-		}*/
-		/*Vector2D cell = Vector2D(1, 2);
-		if (maze->isValidCell(cell)) {
-			agents[0]->addPathPoint(maze->cell2pix(cell));
-		}*/
 
-		if(!pathSetted){
+		if(!pathSetted){ //sino creat el crea (el cami)
 
-			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition);
+			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition, showAll);
+			agents[0]->update(dtime, event);
 		}
-		agents[0]->update(dtime, event);
+		if(!showAll) agents[0]->update(dtime, event);
 
 		// if we have arrived to the coin, replace it in a random cell!
 		if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
