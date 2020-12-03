@@ -95,10 +95,10 @@
     <ClInclude Include="..\src\PathSearchAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\AAsterisk_Strategy.h">
+    <ClInclude Include="..\src\SceneExercise2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\SceneExercise2.h">
+    <ClInclude Include="..\src\GreedyStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

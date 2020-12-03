@@ -1,8 +1,8 @@
-#include "SceneExercise1.h"
+#include "SceneExercise2.h"
 
 using namespace std;
 
-SceneExercise1::SceneExercise1()
+SceneExercise2::SceneExercise2()
 {
 	draw_grid = false;
 	maze = new Grid("../res/maze.csv");
@@ -26,7 +26,7 @@ SceneExercise1::SceneExercise1()
 	//coinPosition = Vector2D(38,22);
 	//setRandPositions();
 	
-	currentAlgorithm = new BreadthFirstSearch();
+	currentAlgorithm = new GreedyStrategy();
 	changeTitle = false;
 	pathSetted = false;
 	instance = 0;
@@ -40,7 +40,7 @@ SceneExercise1::SceneExercise1()
 	showAll = false;
 }
 
-SceneExercise1::~SceneExercise1()
+SceneExercise2::~SceneExercise2()
 {
 	if (background_texture)
 		SDL_DestroyTexture(background_texture);
@@ -52,7 +52,7 @@ SceneExercise1::~SceneExercise1()
 		delete agents[i];
 	}
 }
-void SceneExercise1::setRandPositions() {
+void SceneExercise2::setRandPositions() {
 	Vector2D rand_cell(-1, -1);
 	while (!maze->isValidCell(rand_cell))
 		rand_cell = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
@@ -64,7 +64,7 @@ void SceneExercise1::setRandPositions() {
 }
 
 
-void SceneExercise1::update(float dtime, SDL_Event *event)
+void SceneExercise2::update(float dtime, SDL_Event *event)
 {
 	/* Keyboard & Mouse events */
 	switch (event->type) {
@@ -83,12 +83,7 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	case SDL_MOUSEMOTION:
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (event->button.button == SDL_BUTTON_LEFT) {
-			nextAlgorithm();
-		}
-		else if (event->button.button == SDL_BUTTON_RIGHT) {
-			previousAlgorithm();
-		}
+		
 		break;
 	default:
 		break;
@@ -116,7 +111,7 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	}
 }
 
-void SceneExercise1::draw()
+void SceneExercise2::draw()
 {
 	drawMaze();
 	drawCoin();
@@ -137,30 +132,12 @@ void SceneExercise1::draw()
 	agents[0]->draw();
 }
 
-const char* SceneExercise1::getTitle()
+const char* SceneExercise2::getTitle()
 {
-	switch (currentAlgorithm->type)
-	{
-	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
-		return "Exercise1 :: BREADTH_FIRST_SEARCH";
-		break;
-	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
-		return "Exercise1 :: DIJKSTRA";
-		break;
-	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
-		return "Exercise1 :: BEST_FIRST_SEARCH";
-		break;
-	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
-		return "Exercise1 :: A*";
-		break;
-	default:
-		return "Exercise1 :: NO ALGORITHM SELECTED";
-		break;
-	}
-	return  "";
+	return "Exercise2 :: A*_Variant";
 }
 
-void SceneExercise1::drawMaze()
+void SceneExercise2::drawMaze()
 {
 	SDL_SetRenderDrawColor(TheApp::Instance()->getRenderer(), 0, 0, 255, 255);
 	SDL_Rect rect;
@@ -186,7 +163,7 @@ void SceneExercise1::drawMaze()
 	//SDL_RenderCopy(TheApp::Instance()->getRenderer(), background_texture, NULL, NULL );
 }
 
-void SceneExercise1::drawCoin()
+void SceneExercise2::drawCoin()
 {
 	Vector2D coin_coords = maze->cell2pix(coinPosition);
 	int offset = CELL_SIZE / 2;
@@ -195,7 +172,7 @@ void SceneExercise1::drawCoin()
 }
 
 
-bool SceneExercise1::loadTextures(char* filename_bg, char* filename_coin)
+bool SceneExercise2::loadTextures(char* filename_bg, char* filename_coin)
 {
 	SDL_Surface *image = IMG_Load(filename_bg);
 	if (!image) {
@@ -220,49 +197,8 @@ bool SceneExercise1::loadTextures(char* filename_bg, char* filename_coin)
 	return true;
 }
 
-PathSearchAlgorithm* getNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
-	switch (_t) {
-	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
-		return new BreadthFirstSearch();
-		break;
-	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
-		return new Dijkstra();
-		break;
-	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
-		return new BestFirstSearch();
-		break;
-	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
-		return new AAsterisk();
-		break;
-	default:
-		return NULL;
-		break;
-	}
-}
-void SceneExercise1::createNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
-	delete(currentAlgorithm);
-	currentAlgorithm = getNewAlgorithm(_t);
-	agents[0]->clearPath();
-	instance = 0;
-	Instances20();
-	changeTitle = true;
-}
 
-void SceneExercise1::nextAlgorithm() {
-	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
-	auxType = (PathSearchAlgorithm::algorithmType)((int)auxType + 1);
-	if (auxType == PathSearchAlgorithm::algorithmType::COUNT) auxType = (PathSearchAlgorithm::algorithmType)0;
-	createNewAlgorithm(auxType);
-}
-
-void SceneExercise1::previousAlgorithm() {
-	PathSearchAlgorithm::algorithmType auxType = currentAlgorithm->type;
-	if (auxType == PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH) auxType = (PathSearchAlgorithm::algorithmType)3;
-	else auxType = (PathSearchAlgorithm::algorithmType)((int)auxType - 1);
-	createNewAlgorithm(auxType);
-}
-
-void SceneExercise1::Instances20() {
+void SceneExercise2::Instances20() {
 	pathSetted = false;
 
 	agents[0]->setPosition(instances[instance].first);

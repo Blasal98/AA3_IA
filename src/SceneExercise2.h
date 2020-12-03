@@ -9,26 +9,20 @@
 #include "Seek.h"
 #include "PathFollowing.h"
 #include "Grid.h"
-#include "BreadthFirstSearch.h"
-#include "Dijkstra.h"
-#include "BestFirstSearch.h"
-#include "AAsterisk.h"
+#include "GreedyStrategy.h"
 #include "PathSearchAlgorithm.h"
 
 
-class SceneExercise1 :
+class SceneExercise2 :
 	public Scene
 {
 public:
-	SceneExercise1();
-	~SceneExercise1();
+	SceneExercise2();
+	~SceneExercise2();
 	void update(float dtime, SDL_Event *event);
 	void draw();
 	const char* getTitle();
 	
-	void nextAlgorithm();
-	void previousAlgorithm();
-	void createNewAlgorithm(PathSearchAlgorithm::algorithmType _t);
 	void Instances20();
 
 
