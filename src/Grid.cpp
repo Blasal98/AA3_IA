@@ -56,26 +56,17 @@ bool Grid::isValidCell(Vector2D cell)
 	return !(terrain[(unsigned int)cell.y][(unsigned int)cell.x] == 0);
 }
 
-std::vector<std::pair<Vector2D, bool>> Grid::getNeighbours(Vector2D cell) {
-	std::vector<std::pair<Vector2D, bool>> returnVector;
+std::vector<Vector2D> Grid::getNeighbours(Vector2D cell) {
+	std::vector<Vector2D> returnVector;
 
 	if (isValidCell(Vector2D(cell.x + 1, cell.y)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x + 1, cell.y), false));
+		returnVector.push_back(Vector2D(cell.x + 1, cell.y));
 	if (isValidCell(Vector2D(cell.x - 1, cell.y)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x - 1, cell.y), false));
+		returnVector.push_back(Vector2D(cell.x - 1, cell.y));
 	if (isValidCell(Vector2D(cell.x, cell.y + 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x, cell.y + 1), false));
+		returnVector.push_back(Vector2D(cell.x, cell.y + 1));
 	if (isValidCell(Vector2D(cell.x, cell.y - 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x, cell.y - 1), false));
-
-	if (isValidCell(Vector2D(cell.x + 1, cell.y + 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x + 1, cell.y + 1), true));
-	if (isValidCell(Vector2D(cell.x - 1, cell.y - 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x - 1, cell.y - 1), true));
-	if (isValidCell(Vector2D(cell.x + 1, cell.y - 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x + 1, cell.y - 1), true));
-	if (isValidCell(Vector2D(cell.x - 1, cell.y + 1)))
-		returnVector.push_back(std::make_pair(Vector2D(cell.x - 1, cell.y + 1), true));
+		returnVector.push_back(Vector2D(cell.x, cell.y - 1));
 
 	return returnVector;
 }
