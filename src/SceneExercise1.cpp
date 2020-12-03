@@ -75,7 +75,7 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 			pause = !pause;
 		if (event->key.keysym.scancode == SDL_SCANCODE_O) {
 			showAll = !showAll;
-			pathSetted = false;
+			Instances20();
 		}
 			
 
@@ -96,9 +96,9 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	if(!pause){
 
 		if(!pathSetted){ //sino creat el crea (el cami)
-
+			agents[0]->clearPath();
 			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition, showAll);
-			agents[0]->update(dtime, event);
+
 		}
 		if(!showAll) agents[0]->update(dtime, event);
 
@@ -151,7 +151,7 @@ const char* SceneExercise1::getTitle()
 		return "Exercise1 :: BEST_FIRST_SEARCH";
 		break;
 	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
-		return "Exercise1 :: A_ASTERISK";
+		return "Exercise1 :: A*";
 		break;
 	default:
 		return "Exercise1 :: NO ALGORITHM SELECTED";
