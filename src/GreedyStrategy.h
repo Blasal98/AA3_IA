@@ -96,7 +96,7 @@ public:
 			for (int i = _path.size() - 2; i >= 0; i--) {
 				a->addPathPoint(g->cell2pix(_path[i]));
 			}
-			std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
+			//std::cout << "Total de Iteracions: " << auxCount << " || Longitud del camí: " << auxPathLength << std::endl;
 		}
 		
 		return true;

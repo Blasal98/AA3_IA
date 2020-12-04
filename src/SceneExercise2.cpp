@@ -110,7 +110,7 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 	case SDL_MOUSEMOTION:
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (event->button.button == SDL_BUTTON_LEFT) {
+		/*if (event->button.button == SDL_BUTTON_LEFT) {
 			instance++;
 			if (instance > 19) instance = 0;
 			Instances20();
@@ -123,7 +123,7 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 			Instances20();
 			pause = false;
 			changeTitle = true;
-		}
+		}*/
 		break;
 	default:
 		break;

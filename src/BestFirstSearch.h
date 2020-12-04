@@ -34,7 +34,7 @@ public:
 		std::vector<std::pair<Vector2D, Vector2D>> came_from; //Creem vector de pair Vector2/Vector2
 		came_from.push_back(std::make_pair(frontier.top().cell, Vector2D(-1, -1))); //Asignem que el node inicial ve de cap lloc
 
-		//std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
+		std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
 		int auxCount = 0;
 		while (!frontier.empty()) { //Mentre frontera no estigui buida
 
@@ -65,10 +65,11 @@ public:
 				}
 
 			}
-			//std::cout << frontier.size() << ",";
+			std::cout << frontier.size() << ",";
 			auxCount++;
 
 		}
+		std::cout << std::endl;
 		if (!_showAll) {
 			int auxPathLength = 0;
 			std::vector<Vector2D> _path;

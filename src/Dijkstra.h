@@ -37,7 +37,7 @@ public:
 		std::vector<std::pair<Vector2D, int>> cost_so_far;
 		cost_so_far.push_back(std::make_pair(frontier.top().cell, 0));
 
-		//std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
+		std::cout << "Mida de la Frontera a cada Iteracio: " << std::endl;
 		int auxCount = 0;
 		while (!frontier.empty()) { //Mentre frontera no estigui buida
 
@@ -91,10 +91,11 @@ public:
 					
 				}
 			}
-			//std::cout << frontier.size() << ",";
+			std::cout << frontier.size() << ",";
 			auxCount++;
 
 		}
+		std::cout << std::endl;
 		if (!_showAll) {
 			int auxPathLength = 0;
 			std::vector<Vector2D> _path;
