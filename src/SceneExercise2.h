@@ -24,7 +24,7 @@ public:
 	const char* getTitle();
 	
 	void Instances20();
-
+	void setEnemiesPath();
 
 private:
 	bool pause;
@@ -48,5 +48,6 @@ private:
 	void setRandPositions();
 	int instance;
 	std::vector<std::pair<Vector2D,Vector2D>> instances;
+	int enemyNum;
 
 };

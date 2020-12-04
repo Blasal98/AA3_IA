@@ -95,7 +95,7 @@ void ScenePathFindingMouse::draw()
 		}
 	}
 
-	agents[0]->draw();
+	agents[0]->draw(false);
 }
 
 const char* ScenePathFindingMouse::getTitle()

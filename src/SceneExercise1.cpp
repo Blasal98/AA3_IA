@@ -141,7 +141,7 @@ void SceneExercise1::draw()
 		}
 	}
 
-	agents[0]->draw();
+	agents[0]->draw(false);
 }
 
 const char* SceneExercise1::getTitle()

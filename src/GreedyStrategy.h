@@ -61,9 +61,11 @@ public:
 				//float heuristic = std::sqrtf(std::powf(neighbours[i].x - targetCell.x, 2) + std::powf(neighbours[i].y - targetCell.y, 2));
 				float heuristic = std::abs(neighbours[i].x - targetCell.x) + std::abs(neighbours[i].y - targetCell.y);
 				/*AQUI TODO EL CODIGO*/
+				/*for (int k = 0; k < enemies.size(); k++) {
+					heuristic += std::abs(neighbours[k].x - g->pix2cell(enemies[k]->getPosition()).x) + std::abs(neighbours[k].y - g->pix2cell(enemies[k]->getPosition()).y);
+				}*/
 
-
-
+				
 
 				if (!inCameFrom) {
 					frontier.push(HeuristedEnemies{ neighbours[i], heuristic }); //sino estava doncs el pusheja a frontier ia came_from
