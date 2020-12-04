@@ -82,9 +82,11 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		
-		if (event->key.keysym.scancode == SDL_SCANCODE_P)
+		if (event->key.keysym.scancode == SDL_SCANCODE_P) {
 			pause = !pause;
-
+			if (pause) std::cout << "PAUSED" << std::endl;
+			else std::cout << "RESUMED" << std::endl;
+		}
 		if(!pause){
 			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
 				showAll = !showAll;

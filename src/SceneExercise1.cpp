@@ -69,13 +69,20 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	/* Keyboard & Mouse events */
 	switch (event->type) {
 	case SDL_KEYDOWN:
-		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
-			draw_grid = !draw_grid;
-		if (event->key.keysym.scancode == SDL_SCANCODE_P)
+		if (event->key.keysym.scancode == SDL_SCANCODE_P) {
 			pause = !pause;
-		if (event->key.keysym.scancode == SDL_SCANCODE_O) {
-			showAll = !showAll;
-			Instances20();
+			if (pause) std::cout << "PAUSED" << std::endl;
+			else std::cout << "RESUMED" << std::endl;
+		}
+		if (!pause) {
+			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
+				showAll = !showAll;
+				Instances20();
+			}
+			if (event->key.keysym.scancode == SDL_SCANCODE_SPACE) {
+				draw_grid = !draw_grid;
+				agents[0]->switchShowSprite();
+			}
 		}
 			
 
@@ -245,6 +252,7 @@ void SceneExercise1::createNewAlgorithm(PathSearchAlgorithm::algorithmType _t) {
 	instance = 0;
 	Instances20();
 	changeTitle = true;
+	pause = false;
 }
 
 void SceneExercise1::nextAlgorithm() {
