@@ -25,10 +25,11 @@ SceneExercise2::SceneExercise2()
 		agent->setBehavior(new PathFollowing);
 		agent->setTarget(Vector2D(-20, -20));
 		agents.push_back(agent);
-		agents[i + 1]->setPosition(maze->cell2pix(Vector2D(1+i,1)));
+		setEnemiesPath(i+1);
 	}
 	
-	setEnemiesPath();
+	setPathPeriod = 0.75f;
+	timeCounter = setPathPeriod;
 
 	// set agent position coords to the center of a random cell
 
@@ -95,14 +96,14 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 			changeTitle = true;
 		}
 		if(!pause){
-			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
+			/*if (event->key.keysym.scancode == SDL_SCANCODE_O) {
 				showAll = !showAll;
 				Instances20();
-			}
-			if (event->key.keysym.scancode == SDL_SCANCODE_SPACE) {
+			}*/
+			/*if (event->key.keysym.scancode == SDL_SCANCODE_SPACE) {
 				draw_grid = !draw_grid;
 				agents[0]->switchShowSprite();
-			}
+			}*/
 		}
 
 		break;
@@ -129,29 +130,35 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 	}
 	if(!pause){
 
-		if(!pathSetted){ //sino creat el crea (el cami)
+		if (timeCounter > setPathPeriod) {
 			agents[0]->clearPath();
 			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition, showAll);
-
+			timeCounter = 0;
 		}
-		if (!showAll) { 
-			 
+		else timeCounter += dtime;
+			
+
+
+
 			for (int i = 0; i < enemyNum + 1; i++) {
 				agents[i]->update(dtime, event);
 			}
-		}
+		
 
 		// if we have arrived to the coin, replace it in a random cell!
 		if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
 		{
-			/*coinPosition = Vector2D(-1, -1);
-			while ((!maze->isValidCell(coinPosition)) || (Vector2D::Distance(coinPosition, maze->pix2cell(agents[0]->getPosition()))<3))
-				coinPosition = Vector2D((float)(rand() % maze->getNumCellX()), (float)(rand() % maze->getNumCellY()));
-			*/
+
 			instance++;
 			if (instance > 19) instance = 0;
 			Instances20();
 		}
+		for (int k = 0; k < enemyNum; k++) {
+			if (agents[k+1]->getCurrentTargetIndex() == -1) {
+				setEnemiesPath(k+1);
+			}
+		}
+		
 	}
 }
 
@@ -249,52 +256,69 @@ bool SceneExercise2::loadTextures(char* filename_bg, char* filename_coin)
 
 
 void SceneExercise2::Instances20() {
-	pathSetted = false;
 
 	agents[0]->setPosition(instances[instance].first);
 	coinPosition = instances[instance].second;
 	std::cout << std::endl << "----Instance_" << instance << "----" << std::endl;
 }
 
-void SceneExercise2::setEnemiesPath() {
+void SceneExercise2::setEnemiesPath(int x) {
 	Vector2D finalTarget = Vector2D(16,20);
-	agents[1]->addPathPoint(agents[1]->getPosition());
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(1,10)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(2,10)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(2,20)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(7,20)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(7,18)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(10,18)));
-	agents[1]->addPathPoint(maze->cell2pix(Vector2D(10,20)));
-	agents[1]->addPathPoint(maze->cell2pix(finalTarget));
+	switch (x) {
+	case 1:
+		agents[1]->clearPath();
+		agents[1]->setPosition(maze->cell2pix(Vector2D(1, 1)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(1, 1)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(1, 10)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(2, 10)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(2, 20)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(7, 20)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(7, 18)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(10, 18)));
+		agents[1]->addPathPoint(maze->cell2pix(Vector2D(10, 20)));
+		agents[1]->addPathPoint(maze->cell2pix(finalTarget));
+		break;
+	case 2:
+		agents[2]->clearPath();
+		agents[2]->setPosition(maze->cell2pix(Vector2D(2, 1)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(2, 1)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(2, 5)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(12, 5)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(12, 11)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(18, 11)));
+		agents[2]->addPathPoint(maze->cell2pix(Vector2D(18, 20)));
+		agents[2]->addPathPoint(maze->cell2pix(finalTarget));
+		break;
+	case 3:
+		agents[3]->clearPath();
+		agents[3]->setPosition(maze->cell2pix(Vector2D(3, 1)));
+		agents[3]->addPathPoint(maze->cell2pix(Vector2D(3, 1)));
+		agents[3]->addPathPoint(maze->cell2pix(Vector2D(3, 3)));
+		agents[3]->addPathPoint(maze->cell2pix(Vector2D(31, 3)));
+		agents[3]->addPathPoint(maze->cell2pix(Vector2D(31, 14)));
+		agents[3]->addPathPoint(maze->cell2pix(Vector2D(16, 14)));
+		agents[3]->addPathPoint(maze->cell2pix(finalTarget));
+		break;
+	case 4:
+		agents[4]->clearPath();
+		agents[4]->setPosition(maze->cell2pix(Vector2D(4, 1)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(4, 1)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(18, 1)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(18, 2)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(37, 2)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(37, 21)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(33, 21)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(33, 18)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(29, 18)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(29, 21)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(22, 21)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(22, 15)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(17, 15)));
+		agents[4]->addPathPoint(maze->cell2pix(Vector2D(17, 20)));
+		agents[4]->addPathPoint(maze->cell2pix(finalTarget));
+		break;
+	default:
+		break;
+	}
 
-	agents[2]->addPathPoint(agents[2]->getPosition());
-	agents[2]->addPathPoint(maze->cell2pix(Vector2D(2, 5)));
-	agents[2]->addPathPoint(maze->cell2pix(Vector2D(12, 5)));
-	agents[2]->addPathPoint(maze->cell2pix(Vector2D(12, 11)));
-	agents[2]->addPathPoint(maze->cell2pix(Vector2D(18, 11)));
-	agents[2]->addPathPoint(maze->cell2pix(Vector2D(18, 20)));
-	agents[2]->addPathPoint(maze->cell2pix(finalTarget));
-
-	agents[3]->addPathPoint(agents[3]->getPosition());
-	agents[3]->addPathPoint(maze->cell2pix(Vector2D(3, 3)));
-	agents[3]->addPathPoint(maze->cell2pix(Vector2D(31, 3)));
-	agents[3]->addPathPoint(maze->cell2pix(Vector2D(31, 14)));
-	agents[3]->addPathPoint(maze->cell2pix(Vector2D(16, 14)));
-	agents[3]->addPathPoint(maze->cell2pix(finalTarget));
-
-	agents[4]->addPathPoint(agents[4]->getPosition());
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(18, 1)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(18, 2)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(37, 2)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(37, 21)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(33, 21)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(33, 18)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(29, 18)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(29, 21)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(22, 21)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(22, 15)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(17, 15)));
-	agents[4]->addPathPoint(maze->cell2pix(Vector2D(17, 20)));
-	agents[4]->addPathPoint(maze->cell2pix(finalTarget));
 }

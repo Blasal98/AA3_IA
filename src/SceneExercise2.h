@@ -24,7 +24,7 @@ public:
 	const char* getTitle();
 	
 	void Instances20();
-	void setEnemiesPath();
+	void setEnemiesPath(int x);
 
 private:
 	bool pause;
@@ -50,4 +50,6 @@ private:
 	std::vector<std::pair<Vector2D,Vector2D>> instances;
 	int enemyNum;
 
+	float setPathPeriod;
+	float timeCounter;
 };

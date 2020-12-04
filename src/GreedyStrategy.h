@@ -61,9 +61,9 @@ public:
 				//float heuristic = std::sqrtf(std::powf(neighbours[i].x - targetCell.x, 2) + std::powf(neighbours[i].y - targetCell.y, 2));
 				float heuristic = std::abs(neighbours[i].x - targetCell.x) + std::abs(neighbours[i].y - targetCell.y);
 				/*AQUI TODO EL CODIGO*/
-				/*for (int k = 0; k < enemies.size(); k++) {
-					heuristic += std::abs(neighbours[k].x - g->pix2cell(enemies[k]->getPosition()).x) + std::abs(neighbours[k].y - g->pix2cell(enemies[k]->getPosition()).y);
-				}*/
+				for (int k = 0; k < enemies.size(); k++) {
+					heuristic += std::abs(neighbours[i].x - g->pix2cell(enemies[k]->getPosition()).x) + std::abs(neighbours[i].y - g->pix2cell(enemies[k]->getPosition()).y);
+				}
 
 				
 
