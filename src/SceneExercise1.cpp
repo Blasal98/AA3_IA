@@ -71,8 +71,9 @@ void SceneExercise1::update(float dtime, SDL_Event *event)
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_P) {
 			pause = !pause;
-			if (pause) std::cout << "PAUSED" << std::endl;
-			else std::cout << "RESUMED" << std::endl;
+			changeTitle = true;
+			/*if (pause) std::cout << "PAUSED" << std::endl;
+			else std::cout << "RESUMED" << std::endl;*/
 		}
 		if (!pause) {
 			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
@@ -145,24 +146,47 @@ void SceneExercise1::draw()
 
 const char* SceneExercise1::getTitle()
 {
-	switch (currentAlgorithm->type)
-	{
-	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
-		return "Exercise1 :: BREADTH_FIRST_SEARCH";
-		break;
-	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
-		return "Exercise1 :: DIJKSTRA";
-		break;
-	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
-		return "Exercise1 :: BEST_FIRST_SEARCH";
-		break;
-	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
-		return "Exercise1 :: A*";
-		break;
-	default:
-		return "Exercise1 :: NO ALGORITHM SELECTED";
-		break;
+	if (pause) {
+		switch (currentAlgorithm->type)
+		{
+		case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
+			return "Exercise1 :: BREADTH_FIRST_SEARCH :: PAUSED";
+			break;
+		case PathSearchAlgorithm::algorithmType::DIJKSTRA:
+			return "Exercise1 :: DIJKSTRA :: PAUSED";
+			break;
+		case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
+			return "Exercise1 :: BEST_FIRST_SEARCH :: PAUSED";
+			break;
+		case PathSearchAlgorithm::algorithmType::A_ASTERISK:
+			return "Exercise1 :: A* :: PAUSED";
+			break;
+		default:
+			return "Exercise1 :: NO ALGORITHM SELECTED :: PAUSED";
+			break;
+		}
 	}
+	else {
+		switch (currentAlgorithm->type)
+		{
+		case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
+			return "Exercise1 :: BREADTH_FIRST_SEARCH";
+			break;
+		case PathSearchAlgorithm::algorithmType::DIJKSTRA:
+			return "Exercise1 :: DIJKSTRA";
+			break;
+		case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
+			return "Exercise1 :: BEST_FIRST_SEARCH";
+			break;
+		case PathSearchAlgorithm::algorithmType::A_ASTERISK:
+			return "Exercise1 :: A*";
+			break;
+		default:
+			return "Exercise1 :: NO ALGORITHM SELECTED";
+			break;
+		}
+	}
+	
 	return  "";
 }
 
@@ -274,7 +298,23 @@ void SceneExercise1::Instances20() {
 
 	agents[0]->setPosition(instances[instance].first);
 	coinPosition = instances[instance].second;
-	std::cout << std::endl << "----" << currentAlgorithm->type << "_Instance_" << instance << "----" << std::endl;
+
+	std::cout << std::endl << "----";
+	switch (currentAlgorithm->type) {
+	case PathSearchAlgorithm::algorithmType::BREADTH_FIRST_SEARCH:
+		std::cout << "Breadth";
+		break;
+	case PathSearchAlgorithm::algorithmType::DIJKSTRA:
+		std::cout << "Dijkstra";
+		break;
+	case PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH:
+		std::cout << "Greedy";
+		break;
+	case PathSearchAlgorithm::algorithmType::A_ASTERISK:
+		std::cout << "A*";
+		break;
+	}
+	std::cout << "_Instance_" << instance << "----" << std::endl;
 }
 
 

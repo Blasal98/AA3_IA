@@ -23,9 +23,10 @@ SceneExercise2::SceneExercise2()
 		agent->setBehavior(new PathFollowing);
 		agent->setTarget(Vector2D(-20, -20));
 		agents.push_back(agent);
+		agents[i + 1]->setPosition(maze->cell2pix(Vector2D(1+i,1)));
 	}
 	
-	for (int i = 1; i < 4; i++) {}
+	for (int i = 0; i < 3; i++) {}
 
 	// set agent position coords to the center of a random cell
 
@@ -102,7 +103,16 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 	case SDL_MOUSEMOTION:
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		
+		if (event->button.button == SDL_BUTTON_LEFT) {
+			instance++;
+			if (instance > 19) instance = 0;
+			Instances20();
+		}
+		else if (event->button.button == SDL_BUTTON_RIGHT) {
+			instance--;
+			if (instance < 0) instance = 19;
+			Instances20();
+		}
 		break;
 	default:
 		break;
@@ -114,7 +124,12 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 			pathSetted = currentAlgorithm->setPath(agents[0], maze, coinPosition, showAll);
 
 		}
-		if(!showAll) agents[0]->update(dtime, event);
+		if (!showAll) { 
+			 
+			for (int i = 0; i < 4; i++) {
+				agents[i]->update(dtime, event);
+			}
+		}
 
 		// if we have arrived to the coin, replace it in a random cell!
 		if ((agents[0]->getCurrentTargetIndex() == -1) && (maze->pix2cell(agents[0]->getPosition()) == coinPosition))
@@ -148,7 +163,9 @@ void SceneExercise2::draw()
 		}
 	}
 
-	agents[0]->draw();
+	for (int i = 0; i < 4; i++) {
+		agents[i]->draw();
+	}
 }
 
 const char* SceneExercise2::getTitle()
@@ -222,7 +239,7 @@ void SceneExercise2::Instances20() {
 
 	agents[0]->setPosition(instances[instance].first);
 	coinPosition = instances[instance].second;
-	std::cout << std::endl << "----" << currentAlgorithm->type << "_Instance_" << instance << "----" << std::endl;
+	std::cout << std::endl << "----Instance_" << instance << "----" << std::endl;
 }
 
 
