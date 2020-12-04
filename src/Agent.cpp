@@ -75,7 +75,9 @@ void Agent::setVelocity(Vector2D _velocity)
 {
 	velocity = _velocity;
 }
-
+void Agent::switchShowSprite() {
+	draw_sprite = !draw_sprite;
+}
 void Agent::update(float dtime, SDL_Event *event)
 {
 
@@ -83,10 +85,10 @@ void Agent::update(float dtime, SDL_Event *event)
 
 	switch (event->type) {
 		/* Keyboard & Mouse events */
-	case SDL_KEYDOWN:
+	/*case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_sprite = !draw_sprite;
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -142,12 +144,13 @@ void Agent::setCurrentTargetIndex(int idx)
 	currentTargetIndex = idx;
 }
 
-void Agent::draw()
+void Agent::draw(bool zombie)
 {
 	// Path
 	for (int i = 0; i < (int)path.points.size(); i++)
 	{
-		draw_circle(TheApp::Instance()->getRenderer(), (int)(path.points[i].x), (int)(path.points[i].y), 15, 255, 255, 0, 255);
+		if(!zombie) draw_circle(TheApp::Instance()->getRenderer(), (int)(path.points[i].x), (int)(path.points[i].y), 15, 255, 255, 0, 255);
+		else draw_circle(TheApp::Instance()->getRenderer(), (int)(path.points[i].x), (int)(path.points[i].y), 15, 255, 0, 0, 255);
 		if (i > 0)
 			SDL_RenderDrawLine(TheApp::Instance()->getRenderer(), (int)(path.points[i - 1].x), (int)(path.points[i - 1].y), (int)(path.points[i].x), (int)(path.points[i].y));
 	}
@@ -168,7 +171,7 @@ void Agent::draw()
 	}
 	else 
 	{
-		draw_circle(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, 15, 255, 255, 255, 255);
+		draw_circle(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, 15, 255, 0, 0, 255);
 		SDL_RenderDrawLine(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, (int)(position.x+15*cos(orientation*DEG2RAD)), (int)(position.y+15*sin(orientation*DEG2RAD)));
 	}
 
