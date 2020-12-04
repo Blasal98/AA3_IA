@@ -62,7 +62,8 @@ public:
 				float heuristic = std::abs(neighbours[i].x - targetCell.x) + std::abs(neighbours[i].y - targetCell.y);
 				/*AQUI TODO EL CODIGO*/
 				for (int k = 0; k < enemies.size(); k++) {
-					heuristic += std::abs(neighbours[i].x - g->pix2cell(enemies[k]->getPosition()).x) + std::abs(neighbours[i].y - g->pix2cell(enemies[k]->getPosition()).y);
+					if((g->pix2cell(a->getPosition()) - g->pix2cell(enemies[k]->getPosition())).Length() <= 10)
+						heuristic -= std::abs(neighbours[i].x - g->pix2cell(enemies[k]->getPosition()).x) + std::abs(neighbours[i].y - g->pix2cell(enemies[k]->getPosition()).y);
 				}
 
 				
