@@ -23,9 +23,12 @@ struct HeuristedEnemies {
 };
 
 class GreedyStrategy : public PathSearchAlgorithm {
+private:
+	std::vector<Agent*> enemies;
 public:
-	GreedyStrategy() {
-		type = PathSearchAlgorithm::algorithmType::BEST_FIRST_SEARCH;
+	GreedyStrategy() {}
+	GreedyStrategy(std::vector<Agent*> _enemies) {
+		enemies = _enemies;
 	}
 	bool setPath(Agent* a, Grid* g, Vector2D targetCell, bool _showAll) {
 		std::priority_queue<HeuristedEnemies, std::vector<HeuristedEnemies>, HeuristedEnemies> frontier;  //Create Frontier
@@ -57,6 +60,10 @@ public:
 				}
 				//float heuristic = std::sqrtf(std::powf(neighbours[i].x - targetCell.x, 2) + std::powf(neighbours[i].y - targetCell.y, 2));
 				float heuristic = std::abs(neighbours[i].x - targetCell.x) + std::abs(neighbours[i].y - targetCell.y);
+				/*AQUI TODO EL CODIGO*/
+
+
+
 
 				if (!inCameFrom) {
 					frontier.push(HeuristedEnemies{ neighbours[i], heuristic }); //sino estava doncs el pusheja a frontier ia came_from

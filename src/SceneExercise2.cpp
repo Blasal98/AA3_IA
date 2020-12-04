@@ -38,8 +38,11 @@ SceneExercise2::SceneExercise2()
 	//setRandPositions();
 	
 
-
-	currentAlgorithm = new GreedyStrategy();
+	std::vector<Agent*> auxVec;
+	for (int i = 0; i < 3; i++) {
+		auxVec.push_back(agents[i+1]);
+	}
+	currentAlgorithm = new GreedyStrategy(auxVec);
 	changeTitle = false;
 	pathSetted = false;
 	instance = 0;
@@ -85,8 +88,9 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 		
 		if (event->key.keysym.scancode == SDL_SCANCODE_P) {
 			pause = !pause;
-			if (pause) std::cout << "PAUSED" << std::endl;
-			else std::cout << "RESUMED" << std::endl;
+			/*if (pause) std::cout << "PAUSED" << std::endl;
+			else std::cout << "RESUMED" << std::endl;*/
+			changeTitle = true;
 		}
 		if(!pause){
 			if (event->key.keysym.scancode == SDL_SCANCODE_O) {
@@ -107,11 +111,15 @@ void SceneExercise2::update(float dtime, SDL_Event *event)
 			instance++;
 			if (instance > 19) instance = 0;
 			Instances20();
+			pause = false;
+			changeTitle = true;
 		}
 		else if (event->button.button == SDL_BUTTON_RIGHT) {
 			instance--;
 			if (instance < 0) instance = 19;
 			Instances20();
+			pause = false;
+			changeTitle = true;
 		}
 		break;
 	default:
@@ -170,6 +178,7 @@ void SceneExercise2::draw()
 
 const char* SceneExercise2::getTitle()
 {
+	if (pause) return "Exercise2 :: Greedy_BFS_Variant :: PAUSED";
 	return "Exercise2 :: Greedy_BFS_Variant";
 }
 
